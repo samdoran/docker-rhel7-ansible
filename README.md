@@ -7,7 +7,7 @@ This is a container for testing Ansible roles.
 
 In order to build a new image, set `RHN_USERNAME` and `RHN_PASSWORD` as environment variables, or pass them in directly to the the `docker build` command.
 
-    docker build -t [image tag] --build-arg RHN_USERNAME=$RHN_USERNAME --build-arg RHN_PASSWORD=$RHN_PASSWORD
+    docker build -t [image tag] --build-arg RHN_USERNAME=$RHN_USERNAME --build-arg RHN_PASSWORD=$RHN_PASSWORD .
 
 ## Run ##
 
