@@ -14,7 +14,7 @@ RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == system
 
 RUN subscription-manager register --username=$RHN_USERNAME --password=$RHN_PASSWORD --autosubscribe \
     && yum -y install http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
-    && yum -y --enablerepo=epel-testing install ansible initscripts sudo cronie \
+    && yum -y --enablerepo=epel-testing install ansible sudo cronie python-passlib openssh-server firewalld grub2 selinux-policy-targeted \
     && yum -y update \
     && yum clean all \
     && subscription-manager unregister
@@ -23,6 +23,8 @@ RUN sed -i 's/Defaults    requiretty/Defaults    !requiretty/g' /etc/sudoers
 
 # Install Ansible inventory file.
 RUN echo -e '[local]\nlocalhost ansible_connection=local' > /etc/ansible/hosts
+# RUN sed -i 's/#retry_files_enabled.*$/retry_files_enabled = False/' /etc/ansible/ansible.cfg
+
 
 VOLUME ["/sys/fs/cgroup"]
 CMD ["/usr/sbin/init"]
