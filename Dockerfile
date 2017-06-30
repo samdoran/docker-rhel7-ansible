@@ -23,8 +23,6 @@ RUN sed -i 's/Defaults    requiretty/Defaults    !requiretty/g' /etc/sudoers
 
 # Install Ansible inventory file.
 RUN echo -e '[local]\nlocalhost ansible_connection=local' > /etc/ansible/hosts
-# RUN sed -i 's/#retry_files_enabled.*$/retry_files_enabled = False/' /etc/ansible/ansible.cfg
-
 
 VOLUME ["/sys/fs/cgroup"]
 CMD ["/usr/sbin/init"]
