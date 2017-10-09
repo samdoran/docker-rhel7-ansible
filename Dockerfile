@@ -13,16 +13,17 @@ RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == system
     rm -f /lib/systemd/system/anaconda.target.wants/*;
 
 RUN subscription-manager register --username=$RHN_USERNAME --password=$RHN_PASSWORD --autosubscribe \
+    && subscription-manager repos --enable=rhel-7-server-extras-rpms \
     && yum -y install http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
     && yum -y --enablerepo=epel-testing install ansible sudo cronie python-passlib openssh-server firewalld grub2 selinux-policy-targeted audit \
     && yum -y update \
-    && yum clean all \
+    && rm -rf /var/cache/yum/* \
     && subscription-manager unregister
 
 RUN sed -i 's/Defaults    requiretty/Defaults    !requiretty/g' /etc/sudoers
 
 # Install Ansible inventory file.
-RUN echo -e '[local]\nlocalhost ansible_connection=local' > /etc/ansible/hosts
+RUN echo -e "localhost ansible_connection=local" > /etc/ansible/hosts
 
 VOLUME ["/sys/fs/cgroup"]
 CMD ["/usr/sbin/init"]
