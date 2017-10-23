@@ -18,7 +18,7 @@ To run a role inside the container, you need to run the container with your role
 
 Once your container is running with your role mounted inside it, you can run you test playbook included inside the role. This is a simple playbook that just runs `role_under_test` against `localhost`.
 
-    docker exec -t ansible-test ansible-playbook ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml
+    docker exec -t ansible-test ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml
 
 You can attach to the running container by using `docker exec`
 
