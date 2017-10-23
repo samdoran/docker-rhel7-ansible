@@ -17,7 +17,7 @@ RUN subscription-manager register --username=$RHN_USERNAME --password=$RHN_PASSW
     && yum -y install http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
     && yum -y --enablerepo=epel-testing install ansible sudo cronie python-passlib openssh-server firewalld grub2 selinux-policy-targeted audit \
     && yum -y update \
-    && rm -rf /var/cache/yum/* \
+    && rm -rf /var/cache/yum \
     && subscription-manager unregister
 
 RUN sed -i 's/Defaults    requiretty/Defaults    !requiretty/g' /etc/sudoers
