@@ -1,7 +1,7 @@
 FROM registry.access.redhat.com/rhel7
-ENV container docker
 ARG RHN_USERNAME
 ARG RHN_PASSWORD
+ARG POOL_ID
 
 RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i; done); \
     rm -f /lib/systemd/system/multi-user.target.wants/*;\
@@ -12,7 +12,8 @@ RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == system
     rm -f /lib/systemd/system/basic.target.wants/*;\
     rm -f /lib/systemd/system/anaconda.target.wants/*;
 
-RUN subscription-manager register --username=$RHN_USERNAME --password=$RHN_PASSWORD --autosubscribe \
+RUN subscription-manager register --username=$RHN_USERNAME --password=$RHN_PASSWORD \
+    && subscription-manager attach --pool=$POOL_ID \
     && subscription-manager repos --enable=rhel-7-server-extras-rpms \
     && yum -y install http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
     && yum -y --enablerepo=epel-testing install ansible sudo cronie python-passlib openssh-server firewalld grub2 selinux-policy-targeted audit \
@@ -21,6 +22,8 @@ RUN subscription-manager register --username=$RHN_USERNAME --password=$RHN_PASSW
     && subscription-manager unregister
 
 RUN sed -i 's/Defaults    requiretty/Defaults    !requiretty/g' /etc/sudoers
+
+RUN echo '# BLANK FSTAB' > /etc/fstab
 
 # Install Ansible inventory file.
 RUN echo -e "localhost ansible_connection=local" > /etc/ansible/hosts

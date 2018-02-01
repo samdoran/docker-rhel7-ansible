@@ -6,9 +6,9 @@ This is a container for testing Ansible roles. It includes the latest version of
 
 ## Build ##
 
-In order to build a new image, set `RHN_USERNAME` and `RHN_PASSWORD` as environment variables, or pass them in directly to the the `docker build` command.
+In order to build a new image, set `RHN_USERNAME`, `RHN_PASSWORD`, and `POOL_ID` as environment variables, or pass them in directly to the the `docker build` command.
 
-    docker build -t rhel7-ansible --build-arg RHN_USERNAME=$RHN_USERNAME --build-arg RHN_PASSWORD=$RHN_PASSWORD .
+    docker build -t rhel6-ansible --build-arg RHN_USERNAME=$RHN_USERNAME --build-arg RHN_PASSWORD=$RHN_PASSWORD --build-arg POOL_ID=$POOL_ID .
 
 ## Testing a role inside the container ##
 
