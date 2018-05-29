@@ -1,9 +1,6 @@
 sudo: required
 services: docker
 
-env:
-  - distro=rhel7
-
 script:
   - docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
   - ./buildpush.sh
