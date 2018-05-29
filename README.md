@@ -1,6 +1,5 @@
 # RHEL 7 Ansible Test Image #
-[![Build Status](https://travis-ci.org/samdoran/docker-rhel7-ansible.svg?branch=master)](https://travis-ci.org/samdoran/docker-rhel7-ansible)
-[![Docker Pulls](https://img.shields.io/docker/pulls/mashape/kong.svg)](https://hub.docker.com/r/samdoran/rhel7-ansible/)
+[![Build Status](https://travis-ci.org/samdoran/docker-rhel7-ansible.svg?branch=master)](https://travis-ci.org/samdoran/docker-rhel7-ansible) [![Docker Automated build](https://img.shields.io/docker/automated/samdoran/ubuntu12-ansible.svg?maxAge=2592000)](https://hub.docker.com/r/samdoran/rhel7-ansible)
 
 This is a container for testing Ansible roles. It includes the latest version of Ansible and is rebuilt regularly using [Travis CI](https://travis-ci.org).
 
