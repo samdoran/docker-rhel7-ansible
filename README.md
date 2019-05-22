@@ -1,33 +1,42 @@
 # RHEL 7 Ansible Test Image #
-[![Build Status](https://travis-ci.org/samdoran/docker-rhel7-ansible.svg?branch=master)](https://travis-ci.org/samdoran/docker-rhel7-ansible) [![Docker Automated build](https://img.shields.io/docker/automated/samdoran/ubuntu12-ansible.svg?maxAge=2592000)](https://hub.docker.com/r/samdoran/rhel7-ansible)
+[![Build Status](https://travis-ci.org/samdoran/docker-rhel7-ansible.svg?branch=master)](https://travis-ci.org/samdoran/docker-rhel7-ansible) [![Docker Pulls](https://img.shields.io/docker/pulls/samdoran/rhel7-ansible.svg)](https://cloud.docker.com/repository/docker/samdoran/rhel7-ansible)
 
-This is a container for testing Ansible roles. It includes the latest version of Ansible and is rebuilt regularly using [Travis CI](https://travis-ci.org).
+This is a container for testing Ansible roles with [Molecule](https://molecule.readthedocs.io/en/stable/). It includes the latest version of Ansible available on this platform and is rebuilt regularly. It can also be used if you need to run Ansible on a specific operating system.
+
+Note that Molecule does not use the Ansible version installed in the container when running tests.
 
 ## Build ##
 
 In order to build a new image, set `RHSM_USERNAME`, `RHSM_PASSWORD`, and `RHSM_POOL_ID` as environment variables, or pass them in directly to the the `docker build` command.
 
-    docker build -t rhel6-ansible --build-arg RHSM_USERNAME=$RHSM_USERNAME --build-arg RHSM_PASSWORD=$RHSM_PASSWORD --build-arg RHSM_POOL_ID=$RHSM_POOL_ID .
+    docker build -t rhel7-ansible --build-arg RHSM_USERNAME=$RHSM_USERNAME --build-arg RHSM_PASSWORD=$RHSM_PASSWORD --build-arg RHSM_POOL_ID=$RHSM_POOL_ID .
 
-## Testing a role inside the container ##
 
-To run a role inside the container, you need to run the container with your role mounted inside it. I mount my current role directory as `/usr/share/ansible/roles/role_under_test` inside the container, but you can call it whatever you like.
+## Testing a role using Molecule ##
 
-    docker run --privileged -d --volume="$(pwd)":/usr/share/ansible/roles/role_under_test:ro --name ansible-test rhel7-ansible /sbin/init
+If you don't already have a role repository, you can initialize one using this [cookiecutter template](https://github.com/samdoran/cookiecutter-ansible-role).
 
-Once your container is running with your role mounted inside it, you can run you test playbook included inside the role. This is a simple playbook that just runs `role_under_test` against `localhost`.
+`molecule init template --url https://github.com/samdoran/cookiecutter-ansible-role`
 
-    docker exec -t ansible-test ansible-playbook /usr/share/ansible/roles/role_under_test/tests/test.yml
+Then run `molecule test` to run the full test suite against the role.
 
-You can attach to the running container by using `docker exec`
+Run `molecule converge` to run the role against the test container but leave it running. This allows you to connect to the container using `molecule login` or just test running your role multiple times against an existing container.
 
-    docker exec -i -t ansible-test bash
+If you already have a role being testing using Molecule, add this to the `platforms` section of your `molecule.yml` to use this image:
 
-Once you are done testing, you can stop and remove the container.
+```yaml
+platforms:
+  - name: role-test
+    image: "samdoran/${MOLECULE_DISTRIBUTION:-rhel7}-ansible:latest"
+    command: ${MOLECULE_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: yes
+    pre_build_image: yes
+```
 
-    docker stop ansible-test
-    docker rm ansible-test
+The important parts are `pre_build_image: yes` and the `image` name. Molecule allows you to use environment variables in the configuration file, which is very handy. This allows you to easily change the container that molecule uses for tests (among other things) simply by changing the enivorment variable.
 
-## Automated Testing ##
-
-You can automate the steps outlined above using [this script](https://gist.github.com/samdoran/c3d392ee697881fa33a1d1a65814a07b).
+```
+env MOLECULE_DISTRIBUTION=debian9 molecule test
+```
