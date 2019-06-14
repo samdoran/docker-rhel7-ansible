@@ -16,8 +16,7 @@ RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == system
 
 RUN subscription-manager register --username=$RHSM_USERNAME --password=$RHSM_PASSWORD \
     && subscription-manager attach --pool=$RHSM_POOL_ID \
-    && subscription-manager repos --enable=rhel-7-server-ansible-2.5-rpms --disable=rhel-7-server-htb-rpms\
-    && yum -y install http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+    && subscription-manager repos --enable=rhel-7-server-ansible-2.8-rpms --disable=rhel-7-server-htb-rpms\
     && yum -y install ansible sudo cronie python-passlib openssh-server firewalld grub2 selinux-policy-targeted audit \
     && yum -y update \
     && rm -rf /var/cache/yum \
