@@ -2,5 +2,5 @@ sudo: required
 services: docker
 
 script:
-  - docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
+  - docker login --username $QUAY_USERNAME --password $QUAY_PASSWORD quay.io
   - ./buildpush.sh
