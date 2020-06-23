@@ -1,5 +1,5 @@
 # RHEL 7 Ansible Test Image #
-[![Docker Repository on Quay](https://quay.io/repository/samdoran/rhel7-ansible/status "Docker Repository on Quay")](https://quay.io/repository/samdoran/rhel7-ansible)
+[![Container Repository on Quay](https://quay.io/repository/samdoran/rhel7-ansible/status "Container Repository on Quay")](https://quay.io/repository/samdoran/rhel7-ansible)
 
 This is a container for testing Ansible roles with [Molecule](https://molecule.readthedocs.io/en/stable/). It includes the latest version of Ansible available on this platform and is rebuilt regularly. It can also be used if you need to run Ansible on a specific operating system.
 
@@ -7,9 +7,9 @@ Note that Molecule does not use the Ansible version installed in the container w
 
 ## Build ##
 
-In order to build a new image, set `RHSM_USERNAME`, `RHSM_PASSWORD`, and `RHSM_POOL_ID` as environment variables, or pass them in directly to the the `docker build` command.
+In order to build a new image, set `RHSM_USERNAME`, `RHSM_PASSWORD`, and `RHSM_POOL_ID` as environment variables, or pass them in directly to the the `podman build` command.
 
-    docker build -t rhel7-ansible --build-arg RHSM_USERNAME=$RHSM_USERNAME --build-arg RHSM_PASSWORD=$RHSM_PASSWORD --build-arg RHSM_POOL_ID=$RHSM_POOL_ID .
+    podman build -t rhel7-ansible --build-arg RHSM_USERNAME=$RHSM_USERNAME --build-arg RHSM_PASSWORD=$RHSM_PASSWORD --build-arg RHSM_POOL_ID=$RHSM_POOL_ID -f Containerfile .
 
 
 ## Testing a role using Molecule ##
