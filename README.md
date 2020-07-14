@@ -7,9 +7,9 @@ Note that Molecule does not use the Ansible version installed in the container w
 
 ## Build ##
 
-In order to build a new image, set `RHSM_USERNAME`, `RHSM_PASSWORD`, and `RHSM_POOL_ID` as environment variables, or pass them in directly to the the `podman build` command.
+To build your own version of this container, run:
 
-    podman build -t rhel7-ansible --build-arg RHSM_USERNAME=$RHSM_USERNAME --build-arg RHSM_PASSWORD=$RHSM_PASSWORD --build-arg RHSM_POOL_ID=$RHSM_POOL_ID -f Containerfile .
+    podman build -t rhel7-ansible -f Containerfile .
 
 
 ## Testing a role using Molecule ##

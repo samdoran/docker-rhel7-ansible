@@ -1,6 +1,0 @@
-sudo: required
-services: docker
-
-script:
-  - docker login --username $QUAY_USERNAME --password $QUAY_PASSWORD quay.io
-  - ./buildpush.sh
