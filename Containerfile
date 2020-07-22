@@ -21,8 +21,10 @@ RUN  yum -y install \
         python27-python-wheel \
         selinux-policy-targeted \
         sudo \
-        vim \
-    && rm -rf /var/cache/yum
+        vim && \
+    rm -rf /var/cache/yum
+
+RUN pip install ansible q
 
 RUN sed -i 's/Defaults    requiretty/Defaults    !requiretty/g' /etc/sudoers
 
